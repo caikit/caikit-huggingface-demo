@@ -75,7 +75,7 @@ In the app's main [caikit_example/app.py](caikit_example/app.py), we use [caikit
 runtime:
   # The runtime library (or libraries) whose models we want to serve using Caikit Runtime. This should
   # be a snake case string, e.g., caikit_nlp or caikit_cv.
-  library: caikit_library
+  library: caikit_huggingface
   local_models_dir: models
   # Service exposure options
   port: 8085

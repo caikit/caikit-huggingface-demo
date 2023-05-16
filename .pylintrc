@@ -67,9 +67,7 @@ ignored-modules=
 
 # Python code to execute, usually for sys.path manipulation such as
 # pygtk.require().
-#init-hook=
-# init-hook='import sys; sys.path.append("caikit_example")'
-# init-hook="from pylint.config import find_pylintrc; import os, sys; sys.path.append(os.path.dirname(find_pylintrc()))"
+init-hook='import sys; sys.path.append("src")'
 
 # Use multiple processes to speed up Pylint. Specifying 0 will auto-detect the
 # number of processors available to use, and will cap the count on Windows to
@@ -446,7 +444,7 @@ disable=raw-checker-failed,
         abstract-method,
         pointless-statement,
         wrong-import-order,
-        duplicate-code
+        duplicate-code, line-too-long, arguments-differ
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option

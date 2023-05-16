@@ -13,14 +13,16 @@
 # limitations under the License
 
 # Third Party
-from caikit_library.block_ids import OBJECT_DETECTION
-from caikit_library.data_model.object_detection import (
+from transformers import pipeline
+
+# First Party
+from block_ids import OBJECT_DETECTION
+from caikit_huggingface.data_model.object_detection import (
     Box,
     ObjectDetected,
     ObjectDetectionResult,
 )
-from caikit_library.hf_base import HFBase
-from transformers import pipeline
+from caikit_huggingface.hf_base import HFBase
 
 # Local
 from caikit.core import block
@@ -48,7 +50,9 @@ class ObjectDetection(HFBase):
         )
         self.pipe = pipeline(task=PIPE_TASK, model=hf_model, revision=hf_revision)
 
-    def run(self, encoded_bytes_or_url: str) -> ObjectDetectionResult:
+    def run(
+        self, encoded_bytes_or_url: str
+    ) -> ObjectDetectionResult:  # pylint: disable=arguments-differ
         image = HFBase.get_image_bytes(encoded_bytes_or_url)
         results = self.pipe(image, threshold=0.5)
         objects = [

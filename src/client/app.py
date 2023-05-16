@@ -13,19 +13,21 @@
 # limitations under the License
 
 # Third Party
-from caikit_library.block_ids import *
-from client.conversational import Conversational
-from client.embeddings import Embeddings
-from client.image_classification import ImageClassification
-from client.image_segmentation import ImageSegmentation
-from client.object_detection import ObjectDetection
-from client.sentiment import Sentiment
-from client.summarization import Summarization
-from client.text_generation import TextGeneration
 import gradio as gr
 import grpc
 
+# First Party
+import block_ids
+
 # Local
+from .conversational import Conversational
+from .embeddings import Embeddings
+from .image_classification import ImageClassification
+from .image_segmentation import ImageSegmentation
+from .object_detection import ObjectDetection
+from .sentiment import Sentiment
+from .summarization import Summarization
+from .text_generation import TextGeneration
 from caikit.runtime.service_factory import ServicePackage
 
 
@@ -52,51 +54,51 @@ def get_frontend(
 
         tabs = False
         tabs |= Conversational.optional_tab(
-            module_models.get(CONVERSATIONAL),
+            module_models.get(block_ids.CONVERSATIONAL),
             inference_service.messages.ConversationalRequest,
             client_stub.ConversationalPredict,
         )
         tabs |= TextGeneration.optional_tab(
-            module_models.get(TEXT_GENERATION),
+            module_models.get(block_ids.TEXT_GENERATION),
             inference_service.messages.TextGenerationRequest,
             client_stub.TextGenerationPredict,
         )
         tabs |= Summarization.optional_tab(
-            module_models.get(SUMMARIZATION),
+            module_models.get(block_ids.SUMMARIZATION),
             inference_service.messages.SummarizationRequest,
             client_stub.SummarizationPredict,
         )
         tabs |= Sentiment.optional_tab(
-            module_models.get(SENTIMENT),
+            module_models.get(block_ids.SENTIMENT),
             inference_service.messages.SentimentRequest,
             client_stub.SentimentPredict,
         )
         tabs |= Embeddings.optional_tab(
-            module_models.get(EMBEDDINGS),
+            module_models.get(block_ids.EMBEDDINGS),
             inference_service.messages.EmbeddingsRequest,
             client_stub.EmbeddingsPredict,
         )
         tabs |= ImageClassification.optional_tab(
-            module_models.get(IMAGE_CLASSIFICATION),
+            module_models.get(block_ids.IMAGE_CLASSIFICATION),
             inference_service.messages.ImageClassificationRequest,
             client_stub.ImageClassificationPredict,
         )
         tabs |= ObjectDetection.optional_tab(
-            module_models.get(OBJECT_DETECTION),
+            module_models.get(block_ids.OBJECT_DETECTION),
             inference_service.messages.ObjectDetectionRequest,
             client_stub.ObjectDetectionPredict,
         )
         tabs |= ImageSegmentation.optional_tab(
-            module_models.get(IMAGE_SEGMENTATION),
+            module_models.get(block_ids.IMAGE_SEGMENTATION),
             inference_service.messages.ObjectDetectionRequest,
             client_stub.ImageSegmentationPredict,
         )
 
         if not tabs:
             print("!!! NO UI TABS WERE SUCCESSFULLY LOADED !!!")
-            print(f"  ^ Is the gRPC server even running?")
+            print("  ^ Is the gRPC server even running?")
             print(
-                f"  ^ Did you add model configurations under the caikit_example/models directory?"
+                "  ^ Did you add model configurations under the caikit_example/models directory?"
             )
 
     return frontend

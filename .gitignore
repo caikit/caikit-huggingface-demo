@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 # models directory for local work, not commiting
-# models/
+models/

@@ -13,10 +13,12 @@
 # limitations under the License
 
 # Third Party
-from caikit_library.block_ids import SUMMARIZATION
-from caikit_library.data_model.results import Text
-from caikit_library.hf_base import HFBase
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+
+# First Party
+from block_ids import SUMMARIZATION
+from caikit_huggingface.data_model.results import Text
+from caikit_huggingface.hf_base import HFBase
 
 # Local
 from caikit.core import block
@@ -27,7 +29,7 @@ DEFAULT_MODEL_REVISION = "0db30a2"
 
 @block(id=SUMMARIZATION, name="summarization", version="0.0.0")
 class Summarization(HFBase):
-    def run(self, text_in: str) -> Text:
+    def run(self, text_in: str) -> Text:  # pylint: disable=arguments-differ
         input_ids = self.tokenizer(text_in, return_tensors="pt")["input_ids"]
         output_ids = self.model.generate(input_ids)[0]
         summary = self.tokenizer.decode(output_ids, skip_special_tokens=True)

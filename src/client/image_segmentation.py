@@ -47,7 +47,7 @@ class ImageSegmentation:
                 metadata=[("mm-model-id", model)],
             )
 
-            results = [x for x in response.objects]
+            results = list(response.objects)
             results.sort(
                 key=lambda c: c.score, reverse=True
             )  # Sort so numbering will be in desc score order
