@@ -33,13 +33,13 @@ def cli():
 @click.command()
 @click.option("--confirm", is_flag=True, help="Confirm you want to delete the cache.")
 def clean(confirm):
-    """Clean the huggingface cache"""
+    """Clean the Hugging Face cache"""
     if confirm:
         try:
             shutil.rmtree(path)
-            print("---> The huggingface cache is removed")
+            print("---> The Hugging Face cache is removed")
         except OSError as x:
-            print(f"Error occured: {path} : {x.strerror}")
+            print(f"Error occurred: {path} : {x.strerror}")
     else:
         print("You need to --confirm to delete the cache.")
 

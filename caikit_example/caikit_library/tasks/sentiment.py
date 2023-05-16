@@ -60,13 +60,7 @@ class Sentiment(BlockBase):
 
     @classmethod
     def bootstrap(cls, model_path="distilbert-base-uncased-finetuned-sst-2-english"):
-        """Load a huggingface based watson-core model
-        Args:
-            model_path: str
-                Path to hugging-face model
-        Returns:
-            HuggingFaceExampleModel
-        """
+        """Bootstrap a block by loading a Hugging Face model."""
         return cls(model_path)
 
     def save(self, model_path, **kwargs):

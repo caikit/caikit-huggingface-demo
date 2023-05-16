@@ -11,34 +11,36 @@ This repo contains an example app showing:
 
 ## Prerequisites
 
-**Python >= 3.8 is required**. To install Python dependencies, you should create a virtual environment with `venv` and install from `requirements.txt` using `pip` as shown below. This also ensures you are using **the required version of Caikit**. Make sure you are in an activated venv when running `python`in the example commands that follow. Use `deactivate` if you want to exit the venv.
+The following tools are required:
 
-From your cloned repo root:
+- [python](https://www.python.org) (v3.8+)
+- [pip](https://pypi.org/project/pip/) (v23.0+)
+
+**Note: Before installing dependencies and to avoid conflicts in your environment, it is advisable to use a [virtual environment(venv)](https://docs.python.org/3/library/venv.html).**
+
+Install the dependencies:
 
 ```shell
-python3 -m venv venv
-source venv/bin/activate
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ## Run the app
 
-For convenience, `app.py` by default...
+When you run the app it will:
 
-1. Generates data models and endpoints for blocks
-2. Loads models based on `config.yml` files under the `models` subdirectories
-3. Serves the endpoints for inference with the loaded models
-4. Serves an example UI with input/output forms for enabled tasks/models
+1. Generate data models and endpoints for blocks
+2. Load models based on `config.yml` files under the `models` subdirectories
+3. Serve the endpoints for inference with the loaded models
+4. Serve an example UI with input/output forms for enabled tasks/models
 
 ### Start the server and UI
 
 ```shell
 cd caikit_example
-./cli.py start 
+./app.py
 ```
 
-Note:  If you want to run the backend (Caikit gRPC server) and frontend (gradio UI) separately, use `python caikit_example/app.py --help` to see optional arguments.
-There is a few commands with `cli.py --help` can introduce you to them.
+Note:  If you prefer to run the backend (Caikit gRPC server) and frontend (gradio UI) separately, use `./app.py --help` to see optional arguments.
 
 ### Expected output
 
@@ -86,10 +88,10 @@ In our library ([caikit_library](caikit_example/caikit_library)) the following b
 
 | name                 | transformers usage                                       | block_id                             |
 |----------------------|----------------------------------------------------------|--------------------------------------|
-| sentiment            | pipeline for sentiment-analysis                          | FADC770C-25C8-4685-A176-51FF67B382C1 |
+| sentiment            | Pipeline for sentiment-analysis                          | FADC770C-25C8-4685-A176-51FF67B382C1 |
 | summarization        | AutoModelForSeq2SeqLM and AutoTokenizer to generate text | 866DB835-F2EA-4AD1-A57E-E2707A293EB9 |
 | text_generation      | AutoModelForCausalLM and AutoTokenizer to generate text  | 9E42606B-34A8-4D4C-9B6C-6F66DAD8EC5A |
-| image_classification | pipeline for image-classification                        | D7B3B724-147B-41C1-A41E-A38F9D00F905 |
+| image_classification | Pipeline for image-classification                        | D7B3B724-147B-41C1-A41E-A38F9D00F905 |
 | embeddings           | AutoModel, AutoTokenizer to generate embeddings          | 01A9FC92-EF27-4AE7-8D95-E2DC488302D4 |
 
 The `block_id`shown is important.  That is how Caikit determines which block will load a model.

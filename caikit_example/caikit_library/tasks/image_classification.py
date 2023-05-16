@@ -44,11 +44,10 @@ class ImageClassification(HFBase):
     def run(self, url_in: str) -> ClassificationPrediction:
         """Run HF sentiment analysis
         Args:
-            text_in Image in bytes
+            url_in Image in bytes
         Returns:
             ClassificationPrediction: predicted classes with their confidence score.
         """
-        # image = Image.frombytes('RGBA', (128, 128), image_bytes, 'raw')
 
         if os.path.isfile(url_in):
             image = Image.open(url_in)
@@ -64,14 +63,7 @@ class ImageClassification(HFBase):
             )
         return ClassificationPrediction(class_info)
 
-    # this is how you load the model, if you have a watson core model
     @classmethod
     def load(cls, model_config_path):
-        """Load a huggingface based watson-core model
-        Args:
-            model_config_path: str
-                Path to hugging-face model
-        Returns:
-            HuggingFaceExampleModel
-        """
+        """Load a model"""
         return cls(model_config_path)
