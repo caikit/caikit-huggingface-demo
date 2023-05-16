@@ -79,14 +79,7 @@ class Sentiment(BlockBase):
             self.sentiment_pipeline.save_pretrained(save_path)
             module_saver.update_config({"hf_artifact_path": rel_path})
 
-    # this is how you load the model, if you have a watson core model
     @classmethod
     def load(cls, model_path):
-        """Load a huggingface based watson-core model
-        Args:
-            model_path: str
-                Path to hugging-face model
-        Returns:
-            HuggingFaceExampleModel
-        """
+        """Load a model."""
         return cls(model_path)
