@@ -16,8 +16,8 @@
 import os
 
 # Third Party
-from caikit_library.block_ids import SENTIMENT
-from caikit_library.data_model.classification import ClassificationPrediction, ClassInfo
+from block_ids import SENTIMENT
+from runtime.data_model.classification import ClassificationPrediction, ClassInfo
 from transformers import pipeline
 
 # Local
@@ -40,10 +40,12 @@ class Sentiment(BlockBase):
         )
         self.sentiment_pipeline = model
 
-    def run(self, text_in: str) -> ClassificationPrediction:
+    def run(
+        self, text_in: str, **kwargs
+    ) -> ClassificationPrediction:  # pylint: disable=arguments-differ
         """Run HF sentiment analysis
         Args:
-            text_in TextInput
+            text_in str
         Returns:
             ClassificationPrediction: predicted classes with their confidence score.
         """
@@ -64,12 +66,7 @@ class Sentiment(BlockBase):
         return cls(model_path)
 
     def save(self, model_path, **kwargs):
-        module_saver = ModuleSaver(
-            self,
-            model_path=model_path,
-            library_name="hf_example",
-            library_version="1.2.3",
-        )
+        module_saver = ModuleSaver(self, model_path=model_path)
 
         # Extract object to be saved
         with module_saver:

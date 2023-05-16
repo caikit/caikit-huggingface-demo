@@ -13,13 +13,13 @@
 # limitations under the License
 
 # Third Party
-from caikit_library.block_ids import EMBEDDINGS
-from caikit_library.data_model.embeddings import EmbeddingsPair, Result
+from block_ids import EMBEDDINGS
+from runtime.data_model.embeddings import EmbeddingsPair, Result
 from transformers import AutoModel, AutoTokenizer
 import torch
 
 # Local
-from caikit.core import BlockBase, ModuleConfig, ModuleLoader, ModuleSaver, block
+from caikit.core import BlockBase, ModuleConfig, block
 
 
 @block(EMBEDDINGS, "embeddings", "0.0.0")
@@ -29,7 +29,7 @@ class Embeddings(BlockBase):
         self.tokenizer = tokenizer
         self.model = model
 
-    def run(self, text_in: str) -> Result:
+    def run(self, text_in: str) -> Result:  # pylint: disable=arguments-differ
         model_input = self.tokenizer(text_in, return_tensors="pt")
         model_output = self.model(**model_input)
         x = torch.squeeze(model_output.last_hidden_state)

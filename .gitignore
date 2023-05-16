@@ -128,5 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# models directory for local work, not commiting
-# models/
+# models directory for local work, not committing
+models/

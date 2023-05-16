@@ -12,5 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License
 
+# Standard
+from typing import List
+
 # Local
-from . import block_ids, data_model, embeddings, tasks
+from caikit.core import DataObjectBase
+from caikit.core.data_model import dataobject
+
+
+@dataobject
+class EmbeddingsPair(DataObjectBase):
+    """pair an input token int with a list of output embedding floats"""
+
+    input: int
+    output: List[float]
+
+
+@dataobject
+class Result(DataObjectBase):
+    """The result list of embeddings pairs"""
+
+    output: List[EmbeddingsPair]
