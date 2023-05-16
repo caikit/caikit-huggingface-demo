@@ -15,7 +15,6 @@
 # Standard
 from base64 import b64decode, b64encode
 from io import BytesIO
-from urllib.parse import urlparse
 import os
 
 # Third Party
@@ -41,12 +40,7 @@ class HFBase(BlockBase):
         self.tokenizer = tokenizer
 
     def save(self, artifact_path, *args, **kwargs):
-        block_saver = BlockSaver(
-            self,
-            model_path=artifact_path,
-            library_name=lib_config.library_name,
-            library_version=lib_config.library_version,
-        )
+        block_saver = BlockSaver(self, model_path=artifact_path)
 
         # Extract object to be saved
         with block_saver:
@@ -88,7 +82,9 @@ class HFBase(BlockBase):
 
         # Get image from URL
         if encoded_bytes_or_url.startswith("http"):
-            return Image.open(requests.get(encoded_bytes_or_url, stream=True).raw)
+            return Image.open(
+                requests.get(encoded_bytes_or_url, stream=True, timeout=60).raw
+            )
 
         # Get image from local file. Handy for local demo/test.
         # Simple length limit check to avoid trying to use image data as a path.

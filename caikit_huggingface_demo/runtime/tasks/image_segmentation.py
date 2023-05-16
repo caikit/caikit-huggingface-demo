@@ -13,33 +13,29 @@
 # limitations under the License
 
 # Third Party
-from caikit_library.block_ids import OBJECT_DETECTION
-from caikit_library.data_model.object_detection import (
-    Box,
-    ObjectDetected,
-    ObjectDetectionResult,
-)
-from caikit_library.hf_base import HFBase
+from block_ids import IMAGE_SEGMENTATION
+from runtime.data_model.image_segmentation import ImageSegmentationResult, Mask
+from runtime.hf_base import HFBase
 from transformers import pipeline
 
 # Local
 from caikit.core import block
 
-PIPE_TASK = "object-detection"
+PIPE_TASK = "image-segmentation"
 TASK_NAME = PIPE_TASK.replace("-", "_")
 
-# HF pipeline default:
-# - facebook/detr-resnet-50 and revision 2729413
-#   - requires timm
-#   - 167MB
-# So we are using a tiny default model instead.
-DEFAULT_HF_MODEL = "hustvl/yolos-tiny"
-DEFAULT_HF_MODEL_REVISION = "3686e65df0c914833fc8cbeca745a33b374c499b"
+# HF Default is:
+# - facebook/detr-resnet-50-panoptic and revision fc15262
+# - size 172MB
+# - requires timm
+# Pinning that revision as default
+DEFAULT_HF_MODEL = "facebook/detr-resnet-50-panoptic"
+DEFAULT_HF_MODEL_REVISION = "fc15262"
 
 
-@block(OBJECT_DETECTION, TASK_NAME, "0.0.0")
-class ObjectDetection(HFBase):
-    """Class to wrap object-detection pipeline from Hugging Face"""
+@block(IMAGE_SEGMENTATION, TASK_NAME, "0.0.0")
+class ImageSegmentation(HFBase):
+    """Class to wrap image-segmentation pipeline from Hugging Face"""
 
     def __init__(self, model_config_path) -> None:
         super().__init__()
@@ -48,14 +44,18 @@ class ObjectDetection(HFBase):
         )
         self.pipe = pipeline(task=PIPE_TASK, model=hf_model, revision=hf_revision)
 
-    def run(self, encoded_bytes_or_url: str) -> ObjectDetectionResult:
+    def run(
+        self, encoded_bytes_or_url: str
+    ) -> ImageSegmentationResult:  # pylint: disable=arguments-differ
         image = HFBase.get_image_bytes(encoded_bytes_or_url)
         results = self.pipe(image, threshold=0.5)
         objects = [
-            ObjectDetected(label=o["label"], score=o["score"], box=Box(**o["box"]))
+            Mask(
+                label=o["label"], score=o["score"], mask=HFBase.encode_image(o["mask"])
+            )
             for o in results
         ]
-        return ObjectDetectionResult(objects)
+        return ImageSegmentationResult(objects)
 
     @classmethod
     def load(cls, model_config_path):

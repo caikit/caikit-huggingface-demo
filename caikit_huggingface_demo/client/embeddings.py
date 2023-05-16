@@ -14,7 +14,6 @@
 
 # Third Party
 import gradio as gr
-import grpc
 import numpy
 import pandas
 
@@ -36,9 +35,9 @@ class Embeddings:
         for k in response.output:
             columns.append(k.input)
 
-        for r in range(len(response.output[0].output)):
+        for r, _ in enumerate(response.output[0].output):
             row = []
-            for c in range(len(columns)):
+            for c, _ in enumerate(columns):
                 row.append(response.output[c].output[r])
             rows.append(row)
 

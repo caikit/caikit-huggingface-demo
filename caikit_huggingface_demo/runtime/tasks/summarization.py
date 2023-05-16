@@ -13,25 +13,25 @@
 # limitations under the License
 
 # Third Party
-from caikit_library.block_ids import TEXT_GENERATION
-from caikit_library.data_model.results import Text
-from caikit_library.hf_base import HFBase
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from block_ids import SUMMARIZATION
+from runtime.data_model.results import Text
+from runtime.hf_base import HFBase
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 # Local
 from caikit.core import block
 
-DEFAULT_MODEL = "rpgz31/tiny-nfl"
-DEFAULT_MODEL_REVISION = "4a18ca7"  # To prevent extra downloads and surprises
+DEFAULT_MODEL = "JulesBelveze/t5-small-headline-generator"
+DEFAULT_MODEL_REVISION = "0db30a2"
 
 
-@block(id=TEXT_GENERATION, name="text_generation", version="0.0.0")
-class TextGeneration(HFBase):
-    def run(self, text_in: str) -> Text:
+@block(id=SUMMARIZATION, name="summarization", version="0.0.0")
+class Summarization(HFBase):
+    def run(self, text_in: str) -> Text:  # pylint: disable=arguments-differ
         input_ids = self.tokenizer(text_in, return_tensors="pt")["input_ids"]
         output_ids = self.model.generate(input_ids)[0]
-        result = self.tokenizer.decode(output_ids, skip_special_tokens=True)
-        return Text(result)
+        summary = self.tokenizer.decode(output_ids, skip_special_tokens=True)
+        return Text(summary)
 
     @classmethod
     def load(cls, model_config_path: str):
@@ -40,7 +40,7 @@ class TextGeneration(HFBase):
         )
 
         # Instantiate from pretrained
-        model = AutoModelForCausalLM.from_pretrained(
+        model = AutoModelForSeq2SeqLM.from_pretrained(
             model_name, revision=model_revision
         )
         tokenizer = AutoTokenizer.from_pretrained(model_name, revision=model_revision)

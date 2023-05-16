@@ -31,7 +31,7 @@ from caikit.runtime.service_factory import ServicePackageFactory
 
 # runtime library config
 CONFIG_PATH = os.path.realpath(
-    os.path.join(os.path.dirname(__file__), "caikit_library", "config", "config.yml")
+    os.path.join(os.path.dirname(__file__), "runtime", "config", "config.yml")
 )
 configure(CONFIG_PATH)
 
@@ -67,8 +67,8 @@ def _get_module_models(model_manager=None) -> dict:
                     model_path = os.path.join(local_models_path, model_id)
                     config = ModuleConfig.load(model_path)
                     model_modules[model_id] = config.block_id
-                except Exception as e:
-                    # Broad exception, but ignore unusable dirs/files
+                except Exception:  # pylint: disable=broad-exception-caught
+                    # Broad exception, but want to ignore any unusable dirs/files
                     pass
 
     flipped = {}  # map block_id to list of model_ids
@@ -113,9 +113,9 @@ def _parse_args():
     else:
         print("Command-line disabled backend and/or frontend:")
         if not backend:
-            print(f"  * --no-backend")
+            print("  * --no-backend")
         if not frontend:
-            print(f"  * --no-frontend")
+            print("  * --no-frontend")
 
     return backend, frontend
 
@@ -132,7 +132,7 @@ def start_frontend(backend, inference_service):
     frontend = get_frontend(channel, inference_service, module_models)
     print(f"▶️  Starting the frontend gradio UI with using backend target={target}")
     frontend.launch(share=False, show_tips=False)
-    print(f"⏹️  Stopped")
+    print("⏹️  Stopped")
 
 
 def main() -> int:
@@ -159,7 +159,7 @@ def main() -> int:
                 except KeyboardInterrupt as e:
                     # This is the expected CTRL-C when blocking on the server only (hiding the stack trace)
                     print(
-                        f"\n⏹️  Stopping the backend Caikit inference server due to {e.__repr__()}"
+                        f"\n⏹️  Stopping the backend Caikit inference server due to {repr(e)}"
                     )
 
     elif frontend:
