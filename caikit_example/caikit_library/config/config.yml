@@ -1,0 +1,8 @@
+runtime:
+  # The runtime library (or libraries) whose models we want to serve using Caikit Runtime. This should
+  # be a snake case string, e.g., caikit_nlp or caikit_cv.
+  library: caikit_library
+  local_models_dir: models
+  # Service exposure options
+  port: 8085
+  find_available_port: True
