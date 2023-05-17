@@ -17,13 +17,12 @@ from io import BytesIO
 import base64
 
 # Third Party
-from PIL import Image, ImageColor, ImageFont
+from PIL import Image, ImageColor
 import gradio as gr
 
 # Color map for bbox color picking
 COLORS = list(ImageColor.colormap.keys())
 NUM_COLORS = len(COLORS)
-FONT = ImageFont.truetype("Verdana.ttf", 20)
 
 
 class ImageSegmentation:

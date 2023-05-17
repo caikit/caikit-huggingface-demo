@@ -26,7 +26,7 @@ from caikit.core import BlockBase, ModuleLoader, ModuleSaver, block
 
 @block(SENTIMENT, "sentiment-analysis", "0.0.0")
 class Sentiment(BlockBase):
-    """Class to wrap sentiment analysis pipeline from huggingface"""
+    """Class to wrap sentiment analysis pipeline from Hugging Face"""
 
     def __init__(self, model_path) -> None:
         super().__init__()

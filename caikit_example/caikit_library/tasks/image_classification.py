@@ -33,7 +33,7 @@ TASK = "image-classification"
 
 @block(IMAGE_CLASSIFICATION, "image_classification", "0.0.0")
 class ImageClassification(HFBase):
-    """Class to wrap image classification  pipeline from huggingface"""
+    """Class to wrap image classification pipeline from Hugging Face"""
 
     def __init__(self, model_config_path) -> None:
         super().__init__()

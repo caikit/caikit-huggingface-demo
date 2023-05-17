@@ -23,7 +23,7 @@ import gradio as gr
 # Color map for bbox color picking
 COLORS = list(ImageColor.colormap.keys())
 NUM_COLORS = len(COLORS)
-FONT = ImageFont.truetype("Verdana.ttf", 20)
+FONT = ImageFont.load_default()
 
 
 class ObjectDetection:
