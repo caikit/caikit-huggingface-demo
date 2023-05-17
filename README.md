@@ -36,7 +36,7 @@ When you run the app it will:
 ### Start the server and UI
 
 ```shell
-cd caikit_example
+cd src
 ./app.py
 ```
 
@@ -47,7 +47,7 @@ Note:  If you prefer to run the backend (Caikit gRPC server) and frontend (gradi
 You will see gradio UI tabs activated -- or not -- depending on whether the endpoint+model_id is running. When the backend and frontend servers are started, you can click on the link <http://127.0.0.1:7860> to get to the UI. The following is a simplified example of the output.
 
 ```ShellSession
-(venv)  caikit_example $ ./cli.py start 
+(venv)  src $ ./app.py
 Command-line enabled Caikit gRPC backend server and frontend gradio UI
 ▶️  Starting the backend Caikit inference server...
 ✅️  Sentiment tab is enabled!
@@ -67,9 +67,9 @@ Continue reading to learn how to configure additional tasks/models.
 
 ## Runtime config
 
-In the app's main [caikit_example/app.py](caikit_example/app.py), we use [caikit_example/caikit_library/config/config.yml](caikit_example/caikit_library/config/config.yml) to configure the runtime. This indicates the local library to use for blocks and the local directory to use for model configs. This is also where you can configure other things like port.
+In the app's main [src/app.py](src/app.py), we use [src/caikit_huggingface/config/config.yml](src/caikit_huggingface/config/config.yml) to configure the runtime. This indicates the local library to use for blocks and the local directory to use for model configs. This is also where you can configure other things like port.
 
-**[caikit_example/caikit_library/config/config.yml:](caikit_example/caikit_library/config/config.yml)**
+**[src/caikit_huggingface/config/config.yml:](src/caikit_huggingface/config/config.yml)**
 
 ```yaml
 runtime:
@@ -84,15 +84,18 @@ runtime:
 
 ## Example blocks
 
-In our library ([caikit_library](caikit_example/caikit_library)) the following blocks are available:
+In our library ([caikit_huggingface](src/caikit_huggingface)) the following blocks are available:
 
-| name                 | transformers usage                                       | block_id                             |
-|----------------------|----------------------------------------------------------|--------------------------------------|
-| sentiment            | Pipeline for sentiment-analysis                          | FADC770C-25C8-4685-A176-51FF67B382C1 |
-| summarization        | AutoModelForSeq2SeqLM and AutoTokenizer to generate text | 866DB835-F2EA-4AD1-A57E-E2707A293EB9 |
-| text_generation      | AutoModelForCausalLM and AutoTokenizer to generate text  | 9E42606B-34A8-4D4C-9B6C-6F66DAD8EC5A |
-| image_classification | Pipeline for image-classification                        | D7B3B724-147B-41C1-A41E-A38F9D00F905 |
-| embeddings           | AutoModel, AutoTokenizer to generate embeddings          | 01A9FC92-EF27-4AE7-8D95-E2DC488302D4 |
+| name                 | transformers usage                                       | block_id                               |
+|----------------------|----------------------------------------------------------|----------------------------------------|
+| sentiment            | Pipeline for sentiment-analysis                          | FADC770C-25C8-4685-A176-51FF67B382C1   |
+| summarization        | AutoModelForSeq2SeqLM and AutoTokenizer to generate text | 866DB835-F2EA-4AD1-A57E-E2707A293EB9   |
+| text_generation      | AutoModelForCausalLM and AutoTokenizer to generate text  | 9E42606B-34A8-4D4C-9B6C-6F66DAD8EC5A   |
+| conversational       | Pipeline for conversational                              | BC008C71-A272-4858-9D43-7297B35ABAC4   |
+| object_detection     | Pipeline for object-detection                            | D4C4B6CF-E0C3-4B3F-A325-5071FB126773 |
+| image_classification | Pipeline for image-classification                        | D7B3B724-147B-41C1-A41E-A38F9D00F905   |
+| image_segmentation   | Pipeline for image-segmentation | D44941F7-6967-45ED-823B-C1070C9257F9 |
+| embeddings           | AutoModel, AutoTokenizer to generate embeddings          | 01A9FC92-EF27-4AE7-8D95-E2DC488302D4   |
 
 The `block_id`shown is important.  That is how Caikit determines which block will load a model.
 
@@ -101,11 +104,11 @@ The `block_id`shown is important.  That is how Caikit determines which block wil
 The simplest model config looks like this:
 
 ```ShellSession
-(venv)  caikit_example $  cat example_models/sentiment/config.yml
+(venv)  src $  cat example_models/sentiment/config.yml
 block_id: FADC770C-25C8-4685-A176-51FF67B382C1
 ```
 
-Under [example_models](caikit_example/example_models) we have provided an example for each task using some of the smaller models from Hugging Face.
+Under [example_models](src/example_models) and [example_model_extras](src/example_model_extras) we have provided an example for each task using some of the smaller models from Hugging Face.
 
 ### How Caikit loads a model for inference
 
@@ -123,7 +126,7 @@ At a minimum, Caikit requires a model-to-block mapping for a model to be loaded:
 Since you probably do not want to load all the example models, copy the directories you want from example_models to models. For example:
 
 ```shell
-cd caikit_example
+cd src
 mkdir -p models
 cp -r example_models_extras/image_classification models/
 ```
