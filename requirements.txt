@@ -8,3 +8,4 @@ transformers[torch]==4.27.4
 # frontend only
 gradio==3.29.0
 grpcio==1.53.0
+orjson==3.8.7
