@@ -33,6 +33,16 @@ When you run the app it will:
 3. Serve the endpoints for inference with the loaded models
 4. Serve an example UI with input/output forms for enabled tasks/models
 
+### Select models to load
+
+Since you probably do not want to load all the example models, copy the directories you want from example_models to models. For example:
+
+```shell
+cd caikit_huggingface_demo
+mkdir -p models
+cp -r example_models_extras/image_classification models/
+```
+
 ### Start the server and UI
 
 ```shell
@@ -120,16 +130,6 @@ At a minimum, Caikit requires a model-to-block mapping for a model to be loaded:
   * The `models` directory has `subdir(s)/config.yml` file(s) providing:
     * Model ID (the subdirectory name) for the model
     * `block_id` (attribute in the directory's config.yml) which maps the model to a block
-
-## Select models to load
-
-Since you probably do not want to load all the example models, copy the directories you want from example_models to models. For example:
-
-```shell
-cd caikit_huggingface_demo
-mkdir -p models
-cp -r example_models_extras/image_classification models/
-```
 
 ### Loading a model with a block
 
