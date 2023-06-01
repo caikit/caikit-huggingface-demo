@@ -19,7 +19,7 @@ from runtime.hf_base import HFBase
 from transformers import pipeline
 
 # Local
-from caikit.core import block
+from caikit.core import ModuleBase, module
 
 PIPE_TASK = "image-segmentation"
 TASK_NAME = PIPE_TASK.replace("-", "_")
@@ -33,8 +33,8 @@ DEFAULT_HF_MODEL = "facebook/detr-resnet-50-panoptic"
 DEFAULT_HF_MODEL_REVISION = "fc15262"
 
 
-@block(IMAGE_SEGMENTATION, TASK_NAME, "0.0.0")
-class ImageSegmentation(HFBase):
+@module(IMAGE_SEGMENTATION, TASK_NAME, "0.0.0")
+class ImageSegmentation(HFBase, ModuleBase):
     """Class to wrap image-segmentation pipeline from Hugging Face"""
 
     def __init__(self, model_config_path) -> None:

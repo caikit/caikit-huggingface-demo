@@ -19,11 +19,11 @@ from transformers import AutoModel, AutoTokenizer
 import torch
 
 # Local
-from caikit.core import BlockBase, ModuleConfig, block
+from caikit.core import ModuleBase, ModuleConfig, module
 
 
-@block(EMBEDDINGS, "embeddings", "0.0.0")
-class Embeddings(BlockBase):
+@module(EMBEDDINGS, "embeddings", "0.0.0")
+class Embeddings(ModuleBase):
     def __init__(self, tokenizer=None, model=None) -> None:
         super().__init__()
         self.tokenizer = tokenizer

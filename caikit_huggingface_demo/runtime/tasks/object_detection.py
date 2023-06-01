@@ -23,7 +23,7 @@ from runtime.hf_base import HFBase
 from transformers import pipeline
 
 # Local
-from caikit.core import block
+from caikit.core import ModuleBase, module
 
 PIPE_TASK = "object-detection"
 TASK_NAME = PIPE_TASK.replace("-", "_")
@@ -37,8 +37,8 @@ DEFAULT_HF_MODEL = "hustvl/yolos-tiny"
 DEFAULT_HF_MODEL_REVISION = "3686e65df0c914833fc8cbeca745a33b374c499b"
 
 
-@block(OBJECT_DETECTION, TASK_NAME, "0.0.0")
-class ObjectDetection(HFBase):
+@module(OBJECT_DETECTION, TASK_NAME, "0.0.0")
+class ObjectDetection(HFBase, ModuleBase):
     """Class to wrap object-detection pipeline from Hugging Face"""
 
     def __init__(self, model_config_path) -> None:

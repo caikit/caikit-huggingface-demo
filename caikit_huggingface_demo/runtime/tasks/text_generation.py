@@ -19,14 +19,14 @@ from runtime.hf_base import HFBase
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 # Local
-from caikit.core import block
+from caikit.core import ModuleBase, module
 
 DEFAULT_MODEL = "rpgz31/tiny-nfl"
 DEFAULT_MODEL_REVISION = "4a18ca7"  # To prevent extra downloads and surprises
 
 
-@block(id=TEXT_GENERATION, name="text_generation", version="0.0.0")
-class TextGeneration(HFBase):
+@module(id=TEXT_GENERATION, name="text_generation", version="0.0.0")
+class TextGeneration(HFBase, ModuleBase):
     def run(self, text_in: str) -> Text:  # pylint: disable=arguments-differ
         input_ids = self.tokenizer(text_in, return_tensors="pt")["input_ids"]
         output_ids = self.model.generate(input_ids)[0]

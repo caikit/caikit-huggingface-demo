@@ -19,7 +19,7 @@ from runtime.hf_base import HFBase
 from transformers import Conversation, pipeline
 
 # Local
-from caikit.core import block
+from caikit.core import ModuleBase, module
 
 TASK = "conversational"
 
@@ -29,8 +29,8 @@ DEFAULT_MODEL = "microsoft/DialoGPT-small"
 DEFAULT_MODEL_REVISION = "4e936e3a11f8e077b31eec8f045499c92c7cf087"
 
 
-@block(CONVERSATIONAL, TASK, "0.0.0")
-class Conversational(HFBase):
+@module(CONVERSATIONAL, TASK, "0.0.0")
+class Conversational(HFBase, ModuleBase):
     def __init__(self, model_config_path) -> None:
         super().__init__()
         hf_model, hf_revision = self.read_config(

@@ -23,14 +23,14 @@ from transformers import AutoModel, AutoTokenizer
 import requests
 
 # Local
-from caikit.core import BlockBase, ModuleConfig
-from caikit.core.blocks import BlockSaver
+from caikit.core import ModuleBase, ModuleConfig
+from caikit.core.modules import ModuleSaver
 
 DEFAULT_MODEL = None
 DEFAULT_MODEL_REVISION = None
 
 
-class HFBase(BlockBase):
+class HFBase:
     def __init__(self, model=None, tokenizer=None) -> None:
         """This function gets called by `.load` and `.train` function
         which initializes this module.

@@ -21,11 +21,11 @@ from runtime.data_model.classification import ClassificationPrediction, ClassInf
 from transformers import pipeline
 
 # Local
-from caikit.core import BlockBase, ModuleLoader, ModuleSaver, block
+from caikit.core import ModuleBase, ModuleLoader, ModuleSaver, module
 
 
-@block(SENTIMENT, "sentiment-analysis", "0.0.0")
-class Sentiment(BlockBase):
+@module(SENTIMENT, "sentiment-analysis", "0.0.0")
+class Sentiment(ModuleBase):
     """Class to wrap sentiment analysis pipeline from Hugging Face"""
 
     def __init__(self, model_path) -> None:
@@ -62,7 +62,7 @@ class Sentiment(BlockBase):
 
     @classmethod
     def bootstrap(cls, model_path="distilbert-base-uncased-finetuned-sst-2-english"):
-        """Bootstrap a block by loading a Hugging Face model."""
+        """Bootstrap a module by loading a Hugging Face model."""
         return cls(model_path)
 
     def save(self, model_path, **kwargs):
