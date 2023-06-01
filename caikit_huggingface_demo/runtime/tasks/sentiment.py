@@ -65,17 +65,6 @@ class Sentiment(ModuleBase):
         """Bootstrap a module by loading a Hugging Face model."""
         return cls(model_path)
 
-    def save(self, model_path, **kwargs):
-        module_saver = ModuleSaver(self, model_path=model_path)
-
-        # Extract object to be saved
-        with module_saver:
-            # Make the directory to save model artifacts
-            rel_path, _ = module_saver.add_dir("hf_model")
-            save_path = os.path.join(model_path, rel_path)
-            self.sentiment_pipeline.save_pretrained(save_path)
-            module_saver.update_config({"hf_artifact_path": rel_path})
-
     @classmethod
     def load(cls, model_path):
         """Load a model."""

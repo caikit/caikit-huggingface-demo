@@ -39,19 +39,6 @@ class HFBase:
         self.model = model
         self.tokenizer = tokenizer
 
-    def save(self, artifact_path, *args, **kwargs):
-        block_saver = BlockSaver(self, model_path=artifact_path)
-
-        # Extract object to be saved
-        with block_saver:
-            # TODO: didn't save to models sub-dir.  Also did not re-test w/ this change too.
-            # block_saver.update_config({"artifact": "models"})
-            block_saver.update_config({"artifact": "."})
-            if self.tokenizer:  # This condition allows for empty placeholders
-                self.tokenizer.save_pretrained(artifact_path)
-            if self.model:  # This condition allows for empty placeholders
-                self.model.save_pretrained(artifact_path)
-
     @classmethod
     def read_config(cls, model_name_or_path, default_model, default_model_revision):
         config = ModuleConfig.load(model_name_or_path)
