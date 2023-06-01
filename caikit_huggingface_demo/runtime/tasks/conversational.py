@@ -13,7 +13,7 @@
 # limitations under the License
 
 # Third Party
-from block_ids import CONVERSATIONAL
+from module_ids import CONVERSATIONAL
 from runtime.data_model.results import Text
 from runtime.hf_base import HFBase
 from transformers import Conversation, pipeline

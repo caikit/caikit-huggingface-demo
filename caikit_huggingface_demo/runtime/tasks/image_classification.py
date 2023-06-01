@@ -13,7 +13,7 @@
 # limitations under the License
 
 # Third Party
-from block_ids import IMAGE_CLASSIFICATION
+from module_ids import IMAGE_CLASSIFICATION
 from runtime.data_model.classification import ClassificationPrediction, ClassInfo
 from runtime.hf_base import HFBase
 from transformers import pipeline

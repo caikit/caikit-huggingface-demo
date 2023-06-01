@@ -13,7 +13,7 @@
 # limitations under the License
 
 # Third Party
-from block_ids import EMBEDDINGS
+from module_ids import EMBEDDINGS
 from runtime.data_model.embeddings import EmbeddingsPair, Result
 from transformers import AutoModel, AutoTokenizer
 import torch

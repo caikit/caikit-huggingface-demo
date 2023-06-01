@@ -13,7 +13,7 @@
 # limitations under the License
 
 # Third Party
-from block_ids import IMAGE_SEGMENTATION
+from module_ids import IMAGE_SEGMENTATION
 from runtime.data_model.image_segmentation import ImageSegmentationResult, Mask
 from runtime.hf_base import HFBase
 from transformers import pipeline

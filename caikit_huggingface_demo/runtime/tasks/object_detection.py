@@ -13,7 +13,7 @@
 # limitations under the License
 
 # Third Party
-from block_ids import OBJECT_DETECTION
+from module_ids import OBJECT_DETECTION
 from runtime.data_model.object_detection import (
     Box,
     ObjectDetected,

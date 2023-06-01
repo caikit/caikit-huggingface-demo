@@ -13,7 +13,7 @@
 # limitations under the License
 
 # Third Party
-import block_ids
+import module_ids
 import gradio as gr
 import grpc
 
@@ -52,42 +52,42 @@ def get_frontend(
 
         tabs = False
         tabs |= Conversational.optional_tab(
-            module_models.get(block_ids.CONVERSATIONAL),
+            module_models.get(module_ids.CONVERSATIONAL),
             inference_service.messages.ConversationalRequest,
             client_stub.ConversationalPredict,
         )
         tabs |= TextGeneration.optional_tab(
-            module_models.get(block_ids.TEXT_GENERATION),
+            module_models.get(module_ids.TEXT_GENERATION),
             inference_service.messages.TextGenerationRequest,
             client_stub.TextGenerationPredict,
         )
         tabs |= Summarization.optional_tab(
-            module_models.get(block_ids.SUMMARIZATION),
+            module_models.get(module_ids.SUMMARIZATION),
             inference_service.messages.SummarizationRequest,
             client_stub.SummarizationPredict,
         )
         tabs |= Sentiment.optional_tab(
-            module_models.get(block_ids.SENTIMENT),
+            module_models.get(module_ids.SENTIMENT),
             inference_service.messages.SentimentRequest,
             client_stub.SentimentPredict,
         )
         tabs |= Embeddings.optional_tab(
-            module_models.get(block_ids.EMBEDDINGS),
+            module_models.get(module_ids.EMBEDDINGS),
             inference_service.messages.EmbeddingsRequest,
             client_stub.EmbeddingsPredict,
         )
         tabs |= ImageClassification.optional_tab(
-            module_models.get(block_ids.IMAGE_CLASSIFICATION),
+            module_models.get(module_ids.IMAGE_CLASSIFICATION),
             inference_service.messages.ImageClassificationRequest,
             client_stub.ImageClassificationPredict,
         )
         tabs |= ObjectDetection.optional_tab(
-            module_models.get(block_ids.OBJECT_DETECTION),
+            module_models.get(module_ids.OBJECT_DETECTION),
             inference_service.messages.ObjectDetectionRequest,
             client_stub.ObjectDetectionPredict,
         )
         tabs |= ImageSegmentation.optional_tab(
-            module_models.get(block_ids.IMAGE_SEGMENTATION),
+            module_models.get(module_ids.IMAGE_SEGMENTATION),
             inference_service.messages.ObjectDetectionRequest,
             client_stub.ImageSegmentationPredict,
         )

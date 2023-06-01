@@ -16,7 +16,7 @@
 import os
 
 # Third Party
-from block_ids import SENTIMENT
+from module_ids import SENTIMENT
 from runtime.data_model.classification import ClassificationPrediction, ClassInfo
 from transformers import pipeline
 
