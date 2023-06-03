@@ -20,9 +20,18 @@ import torch
 
 # Local
 from caikit.core import ModuleBase, ModuleConfig, module
+from caikit.core import TaskBase, task
 
 
-@module(EMBEDDINGS, "embeddings", "0.0.0")
+@task(
+    required_parameters={"text_in": str},
+    output_type=Result,
+)
+class EmbeddingsTask(TaskBase):
+    pass
+
+
+@module(EMBEDDINGS, "embeddings", "0.0.0", EmbeddingsTask)
 class Embeddings(ModuleBase):
     def __init__(self, tokenizer=None, model=None) -> None:
         super().__init__()

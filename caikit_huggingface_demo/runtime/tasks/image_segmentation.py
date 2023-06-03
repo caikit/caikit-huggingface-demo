@@ -20,6 +20,7 @@ from transformers import pipeline
 
 # Local
 from caikit.core import ModuleBase, module
+from caikit.core import TaskBase, task
 
 PIPE_TASK = "image-segmentation"
 TASK_NAME = PIPE_TASK.replace("-", "_")
@@ -33,7 +34,15 @@ DEFAULT_HF_MODEL = "facebook/detr-resnet-50-panoptic"
 DEFAULT_HF_MODEL_REVISION = "fc15262"
 
 
-@module(IMAGE_SEGMENTATION, TASK_NAME, "0.0.0")
+@task(
+    required_parameters={"encoded_bytes_or_url": str},
+    output_type=ImageSegmentationResult,
+)
+class ImageSegmentationTask(TaskBase):
+    pass
+
+
+@module(IMAGE_SEGMENTATION, TASK_NAME, "0.0.0", ImageSegmentationTask)
 class ImageSegmentation(HFBase, ModuleBase):
     """Class to wrap image-segmentation pipeline from Hugging Face"""
 

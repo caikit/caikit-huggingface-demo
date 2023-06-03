@@ -20,13 +20,22 @@ from transformers import pipeline
 
 # Local
 from caikit.core import ModuleBase, module
+from caikit.core import TaskBase, task
 
 TASK = "image-classification"
 # DEFAULTS: google/vit-base-patch16-224 and revision 5dca96d
 # facebook/convnext-tiny-224
 
 
-@module(IMAGE_CLASSIFICATION, "image_classification", "0.0.0")
+@task(
+    required_parameters={"encoded_bytes_or_url": str},
+    output_type=ClassificationPrediction,
+)
+class ImageClassificationTask(TaskBase):
+    pass
+
+
+@module(IMAGE_CLASSIFICATION, "image_classification", "0.0.0", ImageClassificationTask)
 class ImageClassification(HFBase, ModuleBase):
     """Class to wrap image classification pipeline from Hugging Face"""
 

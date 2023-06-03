@@ -20,8 +20,17 @@ from transformers import Conversation, pipeline
 
 # Local
 from caikit.core import ModuleBase, module
+from caikit.core import TaskBase, task
 
 TASK = "conversational"
+
+@task(
+    required_parameters={"text_in": str},
+    output_type=Text,
+)
+class ConversationalTask(TaskBase):
+    pass
+
 
 # Default model for task was microsoft/DialoGPT-medium (>800MB). Switched to -small (>350MB)
 DEFAULT_MODEL = "microsoft/DialoGPT-small"
@@ -29,7 +38,7 @@ DEFAULT_MODEL = "microsoft/DialoGPT-small"
 DEFAULT_MODEL_REVISION = "4e936e3a11f8e077b31eec8f045499c92c7cf087"
 
 
-@module(CONVERSATIONAL, TASK, "0.0.0")
+@module(CONVERSATIONAL, TASK, "0.0.0", ConversationalTask)
 class Conversational(HFBase, ModuleBase):
     def __init__(self, model_config_path) -> None:
         super().__init__()
