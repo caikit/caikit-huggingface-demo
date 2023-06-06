@@ -34,20 +34,29 @@ from .text_generation import TextGeneration
 from caikit.runtime.service_factory import ServicePackage
 
 
-def add_tab(clazz, client_stub, service_desc, service_prefix, desc_pool, module_models):
+def add_tab(ui_class, client_stub, service_prefix, desc_pool, module_models):
     """Adds a tab if there are models loaded for this module.
     returns true if tab added else false (no models)
     """
-    class_name = clazz.__name__
+    class_name = ui_class.__name__
     task = f"{class_name}Task"
     method_name = f"{task}Predict"
-    method = getattr(client_stub, method_name)
-    full_name = f"{service_prefix}.{task}"
-    request_name = f"{full_name}Request"
-    request_desc = desc_pool.FindMessageTypeByName(request_name)
+    if hasattr(client_stub, method_name):
+        method = getattr(client_stub, method_name)
+    else:
+        print(f"Failed to find expected method: {method_name}")
+        return False
+
+    request_name = f"{service_prefix}.{task}Request"
+    try:
+        request_desc = desc_pool.FindMessageTypeByName(request_name)
+    except KeyError as e:
+        print(f"Find request error: {e}")
+        return False
+
     request = MessageFactory(desc_pool).GetPrototype(request_desc)
     models = module_models.get(module_ids.MODULE_IDS[class_name])
-    return clazz.optional_tab(models, request, method)
+    return ui_class.optional_tab(models, request, method)
 
 
 def get_frontend(
@@ -59,10 +68,10 @@ def get_frontend(
     services = [
         x for x in reflection_db.get_services() if x.startswith("caikit.runtime.")
     ]
+    if len(services) != 1:
+        print(f"Error: Expected 1 caikit.runtime service, but found {len(services)}.")
     service_name = services[0]
     service_prefix, _, _ = service_name.rpartition(".")
-    service_desc = desc_pool.FindServiceByName(service_name)
-    # TODO: more robust error handling on above discovery
 
     # Build client UI with gradio
     with gr.Blocks(analytics_enabled=False) as frontend:
@@ -81,7 +90,7 @@ def get_frontend(
         )
 
         tabs = False
-        for clazz in [
+        for ui_class in [
             Conversational,
             TextGeneration,
             Summarization,
@@ -92,12 +101,7 @@ def get_frontend(
             ImageSegmentation,
         ]:
             tabs |= add_tab(
-                clazz,
-                client_stub,
-                service_desc,
-                service_prefix,
-                desc_pool,
-                module_models,
+                ui_class, client_stub, service_prefix, desc_pool, module_models
             )
 
         if not tabs:
