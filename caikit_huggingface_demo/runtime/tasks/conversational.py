@@ -19,10 +19,10 @@ from runtime.hf_base import HFBase
 from transformers import Conversation, pipeline
 
 # Local
-from caikit.core import ModuleBase, module
-from caikit.core import TaskBase, task
+from caikit.core import ModuleBase, TaskBase, module, task
 
 TASK = "conversational"
+
 
 @task(
     required_parameters={"text_in": str},

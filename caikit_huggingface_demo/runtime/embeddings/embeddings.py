@@ -19,8 +19,7 @@ from transformers import AutoModel, AutoTokenizer
 import torch
 
 # Local
-from caikit.core import ModuleBase, ModuleConfig, module
-from caikit.core import TaskBase, task
+from caikit.core import ModuleBase, ModuleConfig, TaskBase, module, task
 
 
 @task(

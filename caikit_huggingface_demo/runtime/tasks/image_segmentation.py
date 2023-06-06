@@ -19,8 +19,7 @@ from runtime.hf_base import HFBase
 from transformers import pipeline
 
 # Local
-from caikit.core import ModuleBase, module
-from caikit.core import TaskBase, task
+from caikit.core import ModuleBase, TaskBase, module, task
 
 PIPE_TASK = "image-segmentation"
 TASK_NAME = PIPE_TASK.replace("-", "_")

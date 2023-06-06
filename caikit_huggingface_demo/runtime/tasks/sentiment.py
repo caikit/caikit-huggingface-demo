@@ -21,8 +21,7 @@ from runtime.data_model.classification import ClassificationPrediction, ClassInf
 from transformers import pipeline
 
 # Local
-from caikit.core import ModuleBase, ModuleLoader, ModuleSaver, module
-from caikit.core import TaskBase, task
+from caikit.core import ModuleBase, ModuleLoader, ModuleSaver, TaskBase, module, task
 
 
 @task(

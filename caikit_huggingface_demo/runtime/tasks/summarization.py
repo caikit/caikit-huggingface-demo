@@ -19,8 +19,7 @@ from runtime.hf_base import HFBase
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 # Local
-from caikit.core import ModuleBase, module
-from caikit.core import TaskBase, task
+from caikit.core import ModuleBase, TaskBase, module, task
 
 DEFAULT_MODEL = "JulesBelveze/t5-small-headline-generator"
 DEFAULT_MODEL_REVISION = "0db30a2"

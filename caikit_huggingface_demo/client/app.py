@@ -13,9 +13,14 @@
 # limitations under the License
 
 # Third Party
-import module_ids
+from google.protobuf.descriptor_pool import DescriptorPool
+from google.protobuf.message_factory import MessageFactory
+from grpc_reflection.v1alpha.proto_reflection_descriptor_database import (
+    ProtoReflectionDescriptorDatabase,
+)
 import gradio as gr
 import grpc
+import module_ids
 
 # Local
 from .conversational import Conversational
@@ -28,21 +33,17 @@ from .summarization import Summarization
 from .text_generation import TextGeneration
 from caikit.runtime.service_factory import ServicePackage
 
-from google.protobuf.descriptor_pool import DescriptorPool
-from google.protobuf.message_factory import MessageFactory
-from grpc_reflection.v1alpha.proto_reflection_descriptor_database import ProtoReflectionDescriptorDatabase
-
 
 def add_tab(clazz, client_stub, service_desc, service_prefix, desc_pool, module_models):
     """Adds a tab if there are models loaded for this module.
     returns true if tab added else false (no models)
     """
     class_name = clazz.__name__
-    task = f'{class_name}Task'
-    method_name = f'{task}Predict'
+    task = f"{class_name}Task"
+    method_name = f"{task}Predict"
     method = getattr(client_stub, method_name)
-    full_name = f'{service_prefix}.{task}'
-    request_name = f'{full_name}Request'
+    full_name = f"{service_prefix}.{task}"
+    request_name = f"{full_name}Request"
     request_desc = desc_pool.FindMessageTypeByName(request_name)
     request = MessageFactory(desc_pool).GetPrototype(request_desc)
     models = module_models.get(module_ids.MODULE_IDS[class_name])
@@ -50,12 +51,14 @@ def add_tab(clazz, client_stub, service_desc, service_prefix, desc_pool, module_
 
 
 def get_frontend(
-        channel: grpc.Channel, inference_service: ServicePackage, module_models: dict
+    channel: grpc.Channel, inference_service: ServicePackage, module_models: dict
 ) -> gr.Blocks:
     client_stub = inference_service.stub_class(channel)
     reflection_db = ProtoReflectionDescriptorDatabase(channel)
     desc_pool = DescriptorPool(reflection_db)
-    services = [x for x in reflection_db.get_services() if x.startswith("caikit.runtime.")]
+    services = [
+        x for x in reflection_db.get_services() if x.startswith("caikit.runtime.")
+    ]
     service_name = services[0]
     service_prefix, _, _ = service_name.rpartition(".")
     service_desc = desc_pool.FindServiceByName(service_name)
@@ -88,7 +91,14 @@ def get_frontend(
             ObjectDetection,
             ImageSegmentation,
         ]:
-            tabs |= add_tab(clazz, client_stub, service_desc, service_prefix, desc_pool, module_models)
+            tabs |= add_tab(
+                clazz,
+                client_stub,
+                service_desc,
+                service_prefix,
+                desc_pool,
+                module_models,
+            )
 
         if not tabs:
             print("!!! NO UI TABS WERE SUCCESSFULLY LOADED !!!")

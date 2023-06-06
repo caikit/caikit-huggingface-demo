@@ -19,8 +19,7 @@ from runtime.hf_base import HFBase
 from transformers import pipeline
 
 # Local
-from caikit.core import ModuleBase, module
-from caikit.core import TaskBase, task
+from caikit.core import ModuleBase, TaskBase, module, task
 
 TASK = "image-classification"
 # DEFAULTS: google/vit-base-patch16-224 and revision 5dca96d
