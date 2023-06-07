@@ -13,21 +13,21 @@
 # limitations under the License
 
 # Third Party
-from block_ids import IMAGE_CLASSIFICATION
+from module_ids import IMAGE_CLASSIFICATION
 from runtime.data_model.classification import ClassificationPrediction, ClassInfo
 from runtime.hf_base import HFBase
 from transformers import pipeline
 
 # Local
-from caikit.core import block
+from caikit.core import ModuleBase, module
 
 TASK = "image-classification"
 # DEFAULTS: google/vit-base-patch16-224 and revision 5dca96d
 # facebook/convnext-tiny-224
 
 
-@block(IMAGE_CLASSIFICATION, "image_classification", "0.0.0")
-class ImageClassification(HFBase):
+@module(IMAGE_CLASSIFICATION, "image_classification", "0.0.0")
+class ImageClassification(HFBase, ModuleBase):
     """Class to wrap image classification pipeline from Hugging Face"""
 
     def __init__(self, model_config_path) -> None:

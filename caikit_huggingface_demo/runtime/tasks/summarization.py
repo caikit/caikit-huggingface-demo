@@ -13,20 +13,20 @@
 # limitations under the License
 
 # Third Party
-from block_ids import SUMMARIZATION
+from module_ids import SUMMARIZATION
 from runtime.data_model.results import Text
 from runtime.hf_base import HFBase
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
 # Local
-from caikit.core import block
+from caikit.core import ModuleBase, module
 
 DEFAULT_MODEL = "JulesBelveze/t5-small-headline-generator"
 DEFAULT_MODEL_REVISION = "0db30a2"
 
 
-@block(id=SUMMARIZATION, name="summarization", version="0.0.0")
-class Summarization(HFBase):
+@module(id=SUMMARIZATION, name="summarization", version="0.0.0")
+class Summarization(HFBase, ModuleBase):
     def run(self, text_in: str) -> Text:  # pylint: disable=arguments-differ
         input_ids = self.tokenizer(text_in, return_tensors="pt")["input_ids"]
         output_ids = self.model.generate(input_ids)[0]

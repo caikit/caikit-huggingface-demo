@@ -16,16 +16,16 @@
 import os
 
 # Third Party
-from block_ids import SENTIMENT
+from module_ids import SENTIMENT
 from runtime.data_model.classification import ClassificationPrediction, ClassInfo
 from transformers import pipeline
 
 # Local
-from caikit.core import BlockBase, ModuleLoader, ModuleSaver, block
+from caikit.core import ModuleBase, ModuleLoader, ModuleSaver, module
 
 
-@block(SENTIMENT, "sentiment-analysis", "0.0.0")
-class Sentiment(BlockBase):
+@module(SENTIMENT, "sentiment-analysis", "0.0.0")
+class Sentiment(ModuleBase):
     """Class to wrap sentiment analysis pipeline from Hugging Face"""
 
     def __init__(self, model_path) -> None:
@@ -62,19 +62,8 @@ class Sentiment(BlockBase):
 
     @classmethod
     def bootstrap(cls, model_path="distilbert-base-uncased-finetuned-sst-2-english"):
-        """Bootstrap a block by loading a Hugging Face model."""
+        """Bootstrap a module by loading a Hugging Face model."""
         return cls(model_path)
-
-    def save(self, model_path, **kwargs):
-        module_saver = ModuleSaver(self, model_path=model_path)
-
-        # Extract object to be saved
-        with module_saver:
-            # Make the directory to save model artifacts
-            rel_path, _ = module_saver.add_dir("hf_model")
-            save_path = os.path.join(model_path, rel_path)
-            self.sentiment_pipeline.save_pretrained(save_path)
-            module_saver.update_config({"hf_artifact_path": rel_path})
 
     @classmethod
     def load(cls, model_path):

@@ -48,12 +48,12 @@ def _get_module_models(model_manager=None) -> dict:
 
     Returns
     -------
-    dict - mapping loaded module block_ids to loaded model model_ids
+    dict - mapping loaded module module_ids to loaded model model_ids
 
     """
     if model_manager:
         model_modules = {
-            k: v.module().metadata["block_id"]
+            k: v.module().metadata["module_id"]
             for (k, v) in model_manager.loaded_models.items()
         }
     else:
@@ -66,12 +66,12 @@ def _get_module_models(model_manager=None) -> dict:
                     # Use the file name as the model id
                     model_path = os.path.join(local_models_path, model_id)
                     config = ModuleConfig.load(model_path)
-                    model_modules[model_id] = config.block_id
+                    model_modules[model_id] = config.module_id
                 except Exception:  # pylint: disable=broad-exception-caught
                     # Broad exception, but want to ignore any unusable dirs/files
                     pass
 
-    flipped = {}  # map block_id to list of model_ids
+    flipped = {}  # map module_id to list of model_ids
     for k, v in model_modules.items():
         flipped[v] = flipped.get(v, []) + [k]
     return flipped

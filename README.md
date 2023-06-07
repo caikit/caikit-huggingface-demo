@@ -4,7 +4,7 @@ This repo contains an example app showing:
 
 * Simple script to start a Caikit backend server
 * Simple one-line config files to add Hugging Face models
-* Minimal Caikit block implementations for a variety of Hugging Face tasks
+* Minimal Caikit module implementations for a variety of Hugging Face tasks
 * An included gradio UI frontend with interactive model input/output
 
 ![gradio_ui.png](doc/images/gradio_ui.png)
@@ -28,7 +28,7 @@ pip install -r requirements.txt
 
 When you run the app it will:
 
-1. Generate data models and endpoints for blocks
+1. Generate data models and endpoints for modules
 2. Load models based on `config.yml` files under the `models` subdirectories
 3. Serve the endpoints for inference with the loaded models
 4. Serve an example UI with input/output forms for enabled tasks/models
@@ -77,7 +77,7 @@ Continue reading to learn how to configure additional tasks/models.
 
 ## Runtime config
 
-In the app's main [caikit_huggingface_demo/app.py](caikit_huggingface_demo/app.py), we use [caikit_huggingface_demo/runtime/config/config.yml](caikit_huggingface_demo/runtime/config/config.yml) to configure the runtime. This indicates the local library to use for blocks and the local directory to use for model configs. This is also where you can configure other things like port.
+In the app's main [caikit_huggingface_demo/app.py](caikit_huggingface_demo/app.py), we use [caikit_huggingface_demo/runtime/config/config.yml](caikit_huggingface_demo/runtime/config/config.yml) to configure the runtime. This indicates the local library to use for modules and the local directory to use for model configs. This is also where you can configure other things like port.
 
 **[caikit_huggingface_demo/runtime/config/config.yml:](caikit_huggingface_demo/runtime/config/config.yml)**
 
@@ -92,11 +92,11 @@ runtime:
   find_available_port: True
 ```
 
-## Example blocks
+## Example modules
 
-In our [runtime](caikit_huggingface_demo/runtime) the following blocks are available:
+In our [runtime](caikit_huggingface_demo/runtime) the following modules are available:
 
-| name                 | transformers usage                                       | block_id                               |
+| name                 | transformers usage                                       | module_id                               |
 |----------------------|----------------------------------------------------------|----------------------------------------|
 | sentiment            | Pipeline for sentiment-analysis                          | FADC770C-25C8-4685-A176-51FF67B382C1   |
 | summarization        | AutoModelForSeq2SeqLM and AutoTokenizer to generate text | 866DB835-F2EA-4AD1-A57E-E2707A293EB9   |
@@ -107,7 +107,7 @@ In our [runtime](caikit_huggingface_demo/runtime) the following blocks are avail
 | image_segmentation   | Pipeline for image-segmentation | D44941F7-6967-45ED-823B-C1070C9257F9 |
 | embeddings           | AutoModel, AutoTokenizer to generate embeddings          | 01A9FC92-EF27-4AE7-8D95-E2DC488302D4   |
 
-The `block_id`shown is important.  That is how Caikit determines which block will load a model.
+The `module_id`shown is important.  That is how Caikit determines which module will load a model.
 
 ## Minimal model config
 
@@ -115,27 +115,27 @@ The simplest model config looks like this:
 
 ```ShellSession
 (venv)  caikit_huggingface_demo $  cat example_models/sentiment/config.yml
-block_id: FADC770C-25C8-4685-A176-51FF67B382C1
+module_id: FADC770C-25C8-4685-A176-51FF67B382C1
 ```
 
 Under [example_models](caikit_huggingface_demo/example_models) and [example_model_extras](caikit_huggingface_demo/example_model_extras) we have provided an example for each task using some of the smaller models from Hugging Face.
 
 ### How Caikit loads a model for inference
 
-#### Mapping model_id to block_id
+#### Mapping model_id to module_id
 
-At a minimum, Caikit requires a model-to-block mapping for a model to be loaded:
+At a minimum, Caikit requires a model-to-module mapping for a model to be loaded:
 
 * Using the configured local_models_dir (default is `models`)
   * The `models` directory has `subdir(s)/config.yml` file(s) providing:
     * Model ID (the subdirectory name) for the model
-    * `block_id` (attribute in the directory's config.yml) which maps the model to a block
+    * `module_id` (attribute in the directory's config.yml) which maps the model to a module
 
-### Loading a model with a block
+### Loading a model with a module
 
-At startup, Caikit will attempt to load each model in the models directory. In order to do this, the model config must have a `block_id` matching the `block_id` of a block class.
+At startup, Caikit will attempt to load each model in the models directory. In order to do this, the model config must have a `module_id` matching the `module_id` of a module class.
 
-The example blocks are intentionally simple. Some examples will (simplest first):
+The example modules are intentionally simple. Some examples will (simplest first):
 
 * Load a default model based on a task name
 * Load a default model using a hard-coded model name and revision
@@ -145,7 +145,7 @@ All the examples use Hugging Face models that will be downloaded and cached auto
 
 ### Serving inference endpoints
 
-When a model is loaded for a block, the server will support an inference endpoint for that block (with that model ID). The UI will automatically enable tabs and populate dropdowns with model IDs based on the models that were loaded.
+When a model is loaded for a module, the server will support an inference endpoint for that module (with that model ID). The UI will automatically enable tabs and populate dropdowns with model IDs based on the models that were loaded.
 
 ## Output examples
 

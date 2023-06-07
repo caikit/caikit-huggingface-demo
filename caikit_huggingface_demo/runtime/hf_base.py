@@ -23,14 +23,14 @@ from transformers import AutoModel, AutoTokenizer
 import requests
 
 # Local
-from caikit.core import BlockBase, ModuleConfig
-from caikit.core.blocks import BlockSaver
+from caikit.core import ModuleBase, ModuleConfig
+from caikit.core.modules import ModuleSaver
 
 DEFAULT_MODEL = None
 DEFAULT_MODEL_REVISION = None
 
 
-class HFBase(BlockBase):
+class HFBase:
     def __init__(self, model=None, tokenizer=None) -> None:
         """This function gets called by `.load` and `.train` function
         which initializes this module.
@@ -38,19 +38,6 @@ class HFBase(BlockBase):
         super().__init__()
         self.model = model
         self.tokenizer = tokenizer
-
-    def save(self, artifact_path, *args, **kwargs):
-        block_saver = BlockSaver(self, model_path=artifact_path)
-
-        # Extract object to be saved
-        with block_saver:
-            # TODO: didn't save to models sub-dir.  Also did not re-test w/ this change too.
-            # block_saver.update_config({"artifact": "models"})
-            block_saver.update_config({"artifact": "."})
-            if self.tokenizer:  # This condition allows for empty placeholders
-                self.tokenizer.save_pretrained(artifact_path)
-            if self.model:  # This condition allows for empty placeholders
-                self.model.save_pretrained(artifact_path)
 
     @classmethod
     def read_config(cls, model_name_or_path, default_model, default_model_revision):
