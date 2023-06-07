@@ -142,7 +142,6 @@ def main() -> int:
     # inference_service is needed for both Caikit backend server and frontend UI
     inference_service = ServicePackageFactory().get_service_package(
         ServicePackageFactory.ServiceType.INFERENCE,
-        ServicePackageFactory.ServiceSource.GENERATED,
     )
 
     if backend:

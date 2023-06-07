@@ -21,10 +21,18 @@ from runtime.data_model.classification import ClassificationPrediction, ClassInf
 from transformers import pipeline
 
 # Local
-from caikit.core import ModuleBase, ModuleLoader, ModuleSaver, module
+from caikit.core import ModuleBase, ModuleLoader, ModuleSaver, TaskBase, module, task
 
 
-@module(SENTIMENT, "sentiment-analysis", "0.0.0")
+@task(
+    required_parameters={"text_in": str},
+    output_type=ClassificationPrediction,
+)
+class SentimentTask(TaskBase):
+    pass
+
+
+@module(SENTIMENT, "sentiment-analysis", "0.0.0", SentimentTask)
 class Sentiment(ModuleBase):
     """Class to wrap sentiment analysis pipeline from Hugging Face"""
 

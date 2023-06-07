@@ -13,9 +13,14 @@
 # limitations under the License
 
 # Third Party
-import module_ids
+from google.protobuf.descriptor_pool import DescriptorPool
+from google.protobuf.message_factory import MessageFactory
+from grpc_reflection.v1alpha.proto_reflection_descriptor_database import (
+    ProtoReflectionDescriptorDatabase,
+)
 import gradio as gr
 import grpc
+import module_ids
 
 # Local
 from .conversational import Conversational
@@ -29,10 +34,44 @@ from .text_generation import TextGeneration
 from caikit.runtime.service_factory import ServicePackage
 
 
+def add_tab(ui_class, client_stub, service_prefix, desc_pool, module_models):
+    """Adds a tab if there are models loaded for this module.
+    returns true if tab added else false (no models)
+    """
+    class_name = ui_class.__name__
+    task = f"{class_name}Task"
+    method_name = f"{task}Predict"
+    if hasattr(client_stub, method_name):
+        method = getattr(client_stub, method_name)
+    else:
+        print(f"Failed to find expected method: {method_name}")
+        return False
+
+    request_name = f"{service_prefix}.{task}Request"
+    try:
+        request_desc = desc_pool.FindMessageTypeByName(request_name)
+    except KeyError as e:
+        print(f"Find request error: {e}")
+        return False
+
+    request = MessageFactory(desc_pool).GetPrototype(request_desc)
+    models = module_models.get(module_ids.MODULE_IDS[class_name])
+    return ui_class.optional_tab(models, request, method)
+
+
 def get_frontend(
     channel: grpc.Channel, inference_service: ServicePackage, module_models: dict
 ) -> gr.Blocks:
     client_stub = inference_service.stub_class(channel)
+    reflection_db = ProtoReflectionDescriptorDatabase(channel)
+    desc_pool = DescriptorPool(reflection_db)
+    services = [
+        x for x in reflection_db.get_services() if x.startswith("caikit.runtime.")
+    ]
+    if len(services) != 1:
+        print(f"Error: Expected 1 caikit.runtime service, but found {len(services)}.")
+    service_name = services[0]
+    service_prefix, _, _ = service_name.rpartition(".")
 
     # Build client UI with gradio
     with gr.Blocks(analytics_enabled=False) as frontend:
@@ -51,46 +90,19 @@ def get_frontend(
         )
 
         tabs = False
-        tabs |= Conversational.optional_tab(
-            module_models.get(module_ids.CONVERSATIONAL),
-            inference_service.messages.ConversationalRequest,
-            client_stub.ConversationalPredict,
-        )
-        tabs |= TextGeneration.optional_tab(
-            module_models.get(module_ids.TEXT_GENERATION),
-            inference_service.messages.TextGenerationRequest,
-            client_stub.TextGenerationPredict,
-        )
-        tabs |= Summarization.optional_tab(
-            module_models.get(module_ids.SUMMARIZATION),
-            inference_service.messages.SummarizationRequest,
-            client_stub.SummarizationPredict,
-        )
-        tabs |= Sentiment.optional_tab(
-            module_models.get(module_ids.SENTIMENT),
-            inference_service.messages.SentimentRequest,
-            client_stub.SentimentPredict,
-        )
-        tabs |= Embeddings.optional_tab(
-            module_models.get(module_ids.EMBEDDINGS),
-            inference_service.messages.EmbeddingsRequest,
-            client_stub.EmbeddingsPredict,
-        )
-        tabs |= ImageClassification.optional_tab(
-            module_models.get(module_ids.IMAGE_CLASSIFICATION),
-            inference_service.messages.ImageClassificationRequest,
-            client_stub.ImageClassificationPredict,
-        )
-        tabs |= ObjectDetection.optional_tab(
-            module_models.get(module_ids.OBJECT_DETECTION),
-            inference_service.messages.ObjectDetectionRequest,
-            client_stub.ObjectDetectionPredict,
-        )
-        tabs |= ImageSegmentation.optional_tab(
-            module_models.get(module_ids.IMAGE_SEGMENTATION),
-            inference_service.messages.ObjectDetectionRequest,
-            client_stub.ImageSegmentationPredict,
-        )
+        for ui_class in [
+            Conversational,
+            TextGeneration,
+            Summarization,
+            Sentiment,
+            Embeddings,
+            ImageClassification,
+            ObjectDetection,
+            ImageSegmentation,
+        ]:
+            tabs |= add_tab(
+                ui_class, client_stub, service_prefix, desc_pool, module_models
+            )
 
         if not tabs:
             print("!!! NO UI TABS WERE SUCCESSFULLY LOADED !!!")
