@@ -7,5 +7,5 @@ timm==0.9.1
 # backend only
 transformers[torch]==4.27.4
 # frontend only
-gradio==3.29.0
+gradio==3.34.0
 grpcio==1.53.0
