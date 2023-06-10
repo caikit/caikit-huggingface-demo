@@ -18,5 +18,6 @@ from .image_classification import ImageClassification
 from .image_segmentation import ImageSegmentation
 from .object_detection import ObjectDetection
 from .sentiment import Sentiment
+from .sentence_similarity import SentenceSimilarity
 from .summarization import Summarization
 from .text_generation import TextGeneration
