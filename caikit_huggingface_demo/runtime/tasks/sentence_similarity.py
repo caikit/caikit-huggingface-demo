@@ -43,13 +43,16 @@ class SentenceSimilarity(HFBase, ModuleBase):
 
     def __init__(self, model_config_path) -> None:
         super().__init__()
-        hf_model, _hf_revision = self.read_config(model_config_path, DEFAULT_HF_MODEL, None)
-        self.model = SentenceTransformer(hf_model, cache_folder=f"{HOME}/.cache/huggingface/sentence_transformers")
+        hf_model, _hf_revision = self.read_config(
+            model_config_path, DEFAULT_HF_MODEL, None
+        )
+        self.model = SentenceTransformer(
+            hf_model, cache_folder=f"{HOME}/.cache/huggingface/sentence_transformers"
+        )
 
     def run(
         self, sentences: List[str], **kwargs
     ) -> Result:  # pylint: disable=arguments-differ
-
         embeddings = self.model.encode(sentences)
 
         results: List[EmbeddingsPair] = []
