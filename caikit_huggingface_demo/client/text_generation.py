@@ -45,12 +45,17 @@ class TextGeneration:
                     label="Model ID", choices=models, value=models[0]
                 )
                 inputs = gr.Textbox(
-                    label="Input Text", placeholder=f"Enter input text for {tab}"
+                    label='Input Text', placeholder=f'Prompt Text (hit enter to send)'
                 )
                 outputs = gr.Textbox(
                     label="Output Text", placeholder=f"Output text for {tab}"
                 )
-                inputs.change(this.fn, [model_choice, inputs], outputs, api_name=tab)
+                inputs.submit(this.fn, [model_choice, inputs], outputs, api_name=tab)
+                clear = gr.Button("Clear")
+
+                def nones(*args):
+                    return [None for x in args]
+                clear.click(nones, [inputs, outputs], [inputs, outputs], queue=False)
                 model_choice.change(
                     this.fn, [model_choice, inputs], outputs, api_name=tab
                 )
