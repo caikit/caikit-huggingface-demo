@@ -28,13 +28,12 @@ from Kubernetes.
 
 When your contribution is ready, you can create a pull request. Pull requests are often referred to as "PR". In general, we follow the standard [GitHub pull request](https://help.github.com/en/articles/about-pull-requests) process. Follow the template to provide details about your pull request to the maintainers.
 
-Before sending pull requests, make sure your changes pass formatting, linting and unit tests.
+Before sending pull requests, make sure your changes pass formatting and linting.
 
 #### Code Review
 
 Once you've [created a pull request](#how-can-i-contribute), maintainers will review your code and may make suggestions to fix before merging. It will be easier for your pull request to receive reviews if you consider the criteria the reviewers follow while working. Remember to:
 
-- Run tests locally and ensure they pass
 - Follow the project coding conventions
 - Write detailed commit messages
 - Break large changes into a logical series of smaller patches, which are easy to understand individually and combine to solve a broader issue
@@ -120,7 +119,3 @@ Unsure where to begin contributing? You can start by looking through these issue
 
 - Issues with the [`good first issue` label](https://github.com/caikit/caikit-huggingface-demo/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) - these should only require a few lines of code and are good targets if you're just starting contributing.
 - Issues with the [`help wanted` label](https://github.com/caikit/caikit-huggingface-demo/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22) - these range from simple to more complex, but are generally things we want but can't get to in a short time frame.
-
-## Releasing (Maintainers only)
-
-The responsibility for releasing new versions of the libraries falls to the maintainers. Releases will follow standard [semantic versioning](https://semver.org/).
