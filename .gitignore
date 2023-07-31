@@ -133,3 +133,6 @@ models/
 
 # protos directory for local dump protos for clients, not committing
 protos/
+
+# JetBrains IDEs
+.idea

@@ -96,16 +96,17 @@ runtime:
 
 In our [runtime](caikit_huggingface_demo/runtime) the following modules are available:
 
-| name                 | transformers usage                                       | module_id                               |
-|----------------------|----------------------------------------------------------|----------------------------------------|
-| sentiment            | Pipeline for sentiment-analysis                          | FADC770C-25C8-4685-A176-51FF67B382C1   |
-| summarization        | AutoModelForSeq2SeqLM and AutoTokenizer to generate text | 866DB835-F2EA-4AD1-A57E-E2707A293EB9   |
-| text_generation      | AutoModelForCausalLM and AutoTokenizer to generate text  | 9E42606B-34A8-4D4C-9B6C-6F66DAD8EC5A   |
-| conversational       | Pipeline for conversational                              | BC008C71-A272-4858-9D43-7297B35ABAC4   |
-| object_detection     | Pipeline for object-detection                            | D4C4B6CF-E0C3-4B3F-A325-5071FB126773 |
-| image_classification | Pipeline for image-classification                        | D7B3B724-147B-41C1-A41E-A38F9D00F905   |
-| image_segmentation   | Pipeline for image-segmentation | D44941F7-6967-45ED-823B-C1070C9257F9 |
-| embeddings           | AutoModel, AutoTokenizer to generate embeddings          | 01A9FC92-EF27-4AE7-8D95-E2DC488302D4   |
+| name                  | transformers usage                                       | module_id                            |
+|-----------------------|----------------------------------------------------------|--------------------------------------|
+| sentiment             | Pipeline for sentiment-analysis                          | FADC770C-25C8-4685-A176-51FF67B382C1 |
+| summarization         | AutoModelForSeq2SeqLM and AutoTokenizer to generate text | 866DB835-F2EA-4AD1-A57E-E2707A293EB9 |
+| text_generation       | AutoModelForCausalLM and AutoTokenizer to generate text  | 9E42606B-34A8-4D4C-9B6C-6F66DAD8EC5A |
+| conversational        | Pipeline for conversational                              | BC008C71-A272-4858-9D43-7297B35ABAC4 |
+| object_detection      | Pipeline for object-detection                            | D4C4B6CF-E0C3-4B3F-A325-5071FB126773 |
+| image_classification  | Pipeline for image-classification                        | D7B3B724-147B-41C1-A41E-A38F9D00F905 |
+| image_segmentation    | Pipeline for image-segmentation                          | D44941F7-6967-45ED-823B-C1070C9257F9 |
+| sentence_similarity   | SentenceTransformer to generate embeddings               | A2543F83-1520-416B-85E4-F2BCB6F63354 |
+| embeddings            | AutoModel, AutoTokenizer to generate embeddings          | 01A9FC92-EF27-4AE7-8D95-E2DC488302D4 |
 
 The `module_id`shown is important.  That is how Caikit determines which module will load a model.
 

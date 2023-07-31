@@ -28,6 +28,7 @@ from .embeddings import Embeddings
 from .image_classification import ImageClassification
 from .image_segmentation import ImageSegmentation
 from .object_detection import ObjectDetection
+from .sentence_similarity import SentenceSimilarity
 from .sentiment import Sentiment
 from .summarization import Summarization
 from .text_generation import TextGeneration
@@ -95,6 +96,7 @@ def get_frontend(
             TextGeneration,
             Summarization,
             Sentiment,
+            SentenceSimilarity,
             Embeddings,
             ImageClassification,
             ObjectDetection,
