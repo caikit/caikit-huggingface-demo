@@ -1,4 +1,4 @@
-caikit[all]==0.10.1
+caikit[all]==0.25.0
 requests==2.31.0
 Pillow==9.5.0
 click==8.1.3

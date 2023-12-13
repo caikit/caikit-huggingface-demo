@@ -67,8 +67,8 @@ def get_frontend(
     reflection_db = ProtoReflectionDescriptorDatabase(channel)
     desc_pool = DescriptorPool(reflection_db)
     services = [
-        x for x in reflection_db.get_services() if x.startswith("caikit.runtime.")
-    ]
+        x for x in reflection_db.get_services() if x.startswith("caikit.runtime.") and not (
+            x.startswith("caikit.runtime.training") or x.startswith("caikit.runtime.training"))]
     if len(services) != 1:
         print(f"Error: Expected 1 caikit.runtime service, but found {len(services)}.")
     service_name = services[0]
