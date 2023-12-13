@@ -125,7 +125,7 @@ def start_frontend(backend, inference_service):
     module_models = _get_module_models(model_manager)
     # Channel and stub is for client
     port = (
-        get_config().runtime.port if not backend else backend.port
+        get_config().runtime.grpc.port if not backend else backend.port
     )  # Using the actual port when we have a backend
     target = f"localhost:{port}"
     channel = grpc.insecure_channel(target)
