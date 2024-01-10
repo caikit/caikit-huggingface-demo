@@ -72,9 +72,7 @@ class ObjectDetection:
                 "RGBA", label_size, ImageColor.getrgb(color) + (0,)
             )  # with transparency
             label_draw = ImageDraw.Draw(label_rectangle)
-            label_draw.text(
-                (5, 2), key, font=FONT, fill="white"
-            )
+            label_draw.text((5, 2), key, font=FONT, fill="white")
 
             image.paste(label_rectangle, (b.xmin, b.ymin))
             image_draw.rectangle(
