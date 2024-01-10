@@ -33,7 +33,7 @@ class Embeddings:
         columns = []
         rows = []
         for k in response.output:
-            columns.append(k.input)
+            columns.append(str(k.input))
 
         for r, _ in enumerate(response.output[0].output):
             row = []

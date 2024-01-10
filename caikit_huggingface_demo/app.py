@@ -131,7 +131,7 @@ def start_frontend(backend, inference_service):
     channel = grpc.insecure_channel(target)
     frontend = get_frontend(channel, inference_service, module_models)
     print(f"▶️  Starting the frontend gradio UI with using backend target={target}")
-    frontend.launch(share=False, show_tips=False)
+    frontend.launch(share=False)
     print("⏹️  Stopped")
 
 
