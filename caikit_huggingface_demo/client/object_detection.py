@@ -66,16 +66,15 @@ class ObjectDetection:
                 label if counter[label] == 1 else f"{label}-{counter[label]}"
             )  # Append counter when repeated
             b = result.box
-            text_size = FONT.getsize(key)
-            label_size = (text_size[0] + 10, text_size[1] + 10)
+            _, _, width, height = FONT.getbbox(key)
+            label_size = (width + 10, height + 10)
             label_rectangle = Image.new(
                 "RGBA", label_size, ImageColor.getrgb(color) + (0,)
             )  # with transparency
             label_draw = ImageDraw.Draw(label_rectangle)
-            # label_draw.rectangle((5, 2)+label_size, fill=ImageColor.getrgb(color)+(127,))  # (255, 255, 0, 100))
             label_draw.text(
                 (5, 2), key, font=FONT, fill="white"
-            )  #  fill=(255, 255, 0, 255))
+            )
 
             image.paste(label_rectangle, (b.xmin, b.ymin))
             image_draw.rectangle(
