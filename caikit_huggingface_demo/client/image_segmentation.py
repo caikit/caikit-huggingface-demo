@@ -87,7 +87,11 @@ class ImageSegmentation:
                 with gr.Column():
                     inputs = gr.Image(label="Input Image")
                     output_image = gr.Gallery(
-                        label="Output Masks", show_label=True, preview=True, object_fit="scale-down")
+                        label="Output Masks",
+                        show_label=True,
+                        preview=True,
+                        object_fit="scale-down",
+                    )
                 with gr.Column():
                     outputs = gr.Label(label="Segments Detected")
                 inputs.change(
