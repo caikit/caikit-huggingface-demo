@@ -53,7 +53,7 @@ def _get_module_models(model_manager=None) -> dict:
     """
     if model_manager:
         model_modules = {
-            k: v.module().metadata["module_id"]
+            k: v.model().MODULE_ID
             for (k, v) in model_manager.loaded_models.items()
         }
     else:
@@ -125,7 +125,7 @@ def start_frontend(backend, inference_service):
     module_models = _get_module_models(model_manager)
     # Channel and stub is for client
     port = (
-        get_config().runtime.port if not backend else backend.port
+        get_config().runtime.grpc.port if not backend else backend.port
     )  # Using the actual port when we have a backend
     target = f"localhost:{port}"
     channel = grpc.insecure_channel(target)
@@ -146,9 +146,7 @@ def main() -> int:
 
     if backend:
         print("▶️  Starting the backend Caikit inference server...")
-        with RuntimeGRPCServer(
-            inference_service=inference_service, training_service=None
-        ) as backend:
+        with RuntimeGRPCServer() as backend:
             if frontend:
                 start_frontend(backend, inference_service)  # and wait for termination
             else:
