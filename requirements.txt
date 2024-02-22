@@ -7,5 +7,5 @@ timm==0.9.1
 sentence-transformers==2.2.2
 transformers[torch]==4.30.0
 # frontend only
-gradio==4.11.0
+gradio==4.19.2
 grpcio==1.53.2
